@@ -1,33 +1,20 @@
 const express = require('express');
-const res = require('express/lib/response');
 const path = require('path');
+const members = require('./members');
+const moment = require('moment');
 
 const app = express();
 
-const members = [
-  {
-    id: 1,
-    name: 'Victor GB',
-    email: 'vgb@vgb.com',
-    status: 'active'
-  },
-  {
-    id: 2,
-    name: 'Tyler Durden',
-    email: 'td@td.com',
-    status: 'inactive'
-  },
-  {
-    id: 3,
-    name: 'Marla Singer',
-    email: 'ms@ms.com',
-    status: 'active'
-  }
-]
+const logger = (req, res, next) => {
+  console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}: ${moment().format()}`);
+  next();
+}
 
-app.get('/api/members', (req, res) => {
-  res.json(members);
-});
+// Init Middleware
+app.use(logger);
+
+// Get All Members
+app.get('/api/members', (req, res) => res.json(members));
 
 // app.get('/', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'public', 'index.html'))
