@@ -15,4 +15,9 @@ router.get('/:id', (req, res) => {
   return res.status(400).json({ msg: `No member with the id of ${req.params.id}` })
 });
 
+// Create Member
+router.post('/', () => {
+  res.send(req.body);
+});
+
 module.exports = router;
